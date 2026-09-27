@@ -1,0 +1,29 @@
+# Segreti: mai nel repository
+.env
+.env.*
+!.env.example
+
+# Immagini generate in locale (non versionate)
+output/
+
+# I JPEG pubblicati su Instagram arrivano in published/ via API durante la CI:
+# la cartella è versionata solo per i file che servono a spiegarla.
+published/*
+!published/README.md
+
+# Stato locale di esecuzione (in CI viene committato solo data/state.json)
+data/runs.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Sistema
+.DS_Store
+Thumbs.db

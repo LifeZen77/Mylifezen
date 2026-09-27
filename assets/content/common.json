@@ -1,0 +1,105 @@
+{
+  "brand": {
+    "name": "myLifeZen",
+    "handle": "@lifezen77real",
+    "tagline": "365 giorni di zen",
+    "ornament": "✦",
+    "story_cta": "Salva questo pensiero ✦",
+    "website": ""
+  },
+  "types": {
+    "pensiero": {
+      "label": "Pensiero del giorno",
+      "cta": "Fermati un istante, leggi due volte, respira. Poi torna alla tua giornata con un po' più di spazio dentro."
+    },
+    "aforisma": {
+      "label": "Aforisma zen",
+      "cta": "Se ti risuona, salvalo e condividilo con qualcuno che ha bisogno di leggerlo oggi."
+    },
+    "mantra": {
+      "label": "Mantra del giorno",
+      "cta": "Ripetilo tre volte ad alta voce, al mattino e prima di dormire. Lascia che le parole facciano il loro lavoro."
+    },
+    "manifestazione": {
+      "label": "Manifestazione",
+      "cta": "Scrivila al presente, chiudi gli occhi, immagina di viverla già. Senti la sensazione nel corpo prima di vederla nella realtà."
+    },
+    "consiglio": {
+      "label": "Consiglio zen",
+      "cta": "Provaci oggi: bastano cinque minuti di pratica per cambiare il tono della giornata."
+    }
+  },
+  "hashtags": {
+    "max": 15,
+    "tag_map": {
+      "cura di sé": "#selfcare",
+      "nuovi inizi": "#nuoviinizi",
+      "lasciar andare": "#lasciarandare",
+      "identita": "#identita",
+      "semplicità": "#semplicita",
+      "integrità": "#integrita",
+      "priorità": "#priorita",
+      "creatività": "#creativita",
+      "leggerezza": "#leggerezza",
+      "auto stima": "#autostima",
+      "amore proprio": "#amoreproprio",
+      "forza interiore": "#forzainteriore",
+      "buon umore": "#buonumore",
+      "tempo per sé": "#tempoperse",
+      "cura di se": "#selfcare",
+      "ascolto di sé": "#ascolto",
+      "visione": "#visione",
+      "fiducia in sé": "#fiduciainse",
+      "equilibrio interiore": "#equilibriointeriore",
+      "silenzio mentale": "#silenziomentale",
+      "rallentare": "#rallentare"
+    },
+    "base": [
+      "#lifezen",
+      "#zen",
+      "#mindfulness",
+      "#consapevolezza",
+      "#crescitapersonale",
+      "#calmainteriore",
+      "#benessere",
+      "#meditazione",
+      "#aforismi",
+      "#pensieripositivi"
+    ],
+    "themes": {
+      "il-risveglio": ["#nuoviinizi", "#intenzione", "#annuovo"],
+      "il-cuore-quieto": ["#gentilezza", "#amoreproprio", "#selfcare"],
+      "la-semina": ["#costanza", "#disciplina", "#impegno"],
+      "il-respiro": ["#respiro", "#presenza", "#lasciarandare"],
+      "la-fioritura": ["#gratitudine", "#bellezza", "#fiorire"],
+      "la-luce": ["#energia", "#coraggio", "#azione"],
+      "l-onda": ["#accettazione", "#flessibilita", "#calma"],
+      "il-silenzio": ["#silenzio", "#lentezza", "#pausa"],
+      "il-ritorno": ["#ripartire", "#focus", "#concentrazione"],
+      "il-lasciar-andare": ["#impermanenza", "#perdono", "#distacco"],
+      "la-gratitudine": ["#gratitudine", "#luceinteriore", "#ringraziare"],
+      "la-luce-interiore": ["#pace", "#chiusura", "#riflessione"]
+    }
+  },
+  "months": {
+    "1": { "name": "Gennaio", "theme": "Il risveglio" },
+    "2": { "name": "Febbraio", "theme": "Il cuore quieto" },
+    "3": { "name": "Marzo", "theme": "La semina" },
+    "4": { "name": "Aprile", "theme": "Il respiro" },
+    "5": { "name": "Maggio", "theme": "La fioritura" },
+    "6": { "name": "Giugno", "theme": "La luce" },
+    "7": { "name": "Luglio", "theme": "L'onda" },
+    "8": { "name": "Agosto", "theme": "Il silenzio" },
+    "9": { "name": "Settembre", "theme": "Il ritorno" },
+    "10": { "name": "Ottobre", "theme": "Il lasciar andare" },
+    "11": { "name": "Novembre", "theme": "La gratitudine" },
+    "12": { "name": "Dicembre", "theme": "La luce interiore" }
+  },
+  "bonus": {
+    "type": "pensiero",
+    "title": "Il giorno in più",
+    "text": "Un anno bisestile regala un giorno che non era previsto. Usalo come si usa un regalo: senza doverlo meritare.",
+    "caption": "Il 29 febbraio torna solo ogni quattro anni. Che tu lo passi a riposare o a costruire, fallo con intenzione.",
+    "tags": ["anno bisestile", "tempo", "dono"]
+  }
+}
