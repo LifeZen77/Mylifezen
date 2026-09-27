@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "published": {},
+  "runs": [
+    {
+      "at": "2026-09-27T17:41:16+00:00",
+      "date": "2026-09-27",
+      "status": "dry-run",
+      "type": "manifestazione"
+    }
+  ],
+  "_nota": "Cronologia delle pubblicazioni: popolata automaticamente a ogni run riuscito."
+}
