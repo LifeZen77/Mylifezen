@@ -1,0 +1,113 @@
+name: Pubblicazione giornaliera
+
+# Ogni giorno alle 06:10 UTC (= 08:10 in Italia con l'ora legale, 07:10 con l'ora solare).
+# Puoi cambiare l'orario qui sotto oppure lanciare a mano dalla scheda "Actions".
+on:
+  schedule:
+    - cron: "10 6 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Data da pubblicare (AAAA-MM-GG). Vuoto = oggi."
+        required: false
+        type: string
+      dry_run:
+        description: "Prova senza pubblicare"
+        required: false
+        default: false
+        type: boolean
+      force:
+        description: "Ripubblica anche se già pubblicato"
+        required: false
+        default: false
+        type: boolean
+      story:
+        description: "Genera anche la versione storia 1080x1920"
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lifezen-pubblicazione
+  cancel-in-progress: false
+
+jobs:
+  pubblica:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Europe/Rome
+      PYTHONUNBUFFERED: "1"
+      # Credenziali Instagram (Repository → Settings → Secrets and variables → Actions)
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_APP_ID: ${{ secrets.IG_APP_ID }}
+      IG_APP_SECRET: ${{ secrets.IG_APP_SECRET }}
+      # Hosting immagini: di default il repo stesso (jsDelivr CDN)
+      LIFEZEN_IMAGE_HOST: github
+      LIFEZEN_REPO: ${{ github.repository }}
+      LIFEZEN_IMAGE_BRANCH: main
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Notifiche opzionali
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      LIFEZEN_DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '0' }}
+
+    steps:
+      - name: Scarica il repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Prepara Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Installa le dipendenze
+        run: pip install -r requirements.txt
+
+      - name: Controlla la libreria dei contenuti
+        run: python -m lifezen check
+
+      - name: Genera e pubblica il contenuto del giorno
+        id: post
+        run: |
+          ARGS=""
+          if [ -n "${{ github.event.inputs.date }}" ]; then ARGS="$ARGS --date ${{ github.event.inputs.date }}"; fi
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then ARGS="$ARGS --force"; fi
+          if [ "${{ github.event.inputs.story }}" != "false" ]; then ARGS="$ARGS --story"; fi
+          echo "Comando: python -m lifezen run $ARGS"
+          python -m lifezen run $ARGS
+
+      - name: Salva le card come artefatto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: card-${{ github.run_number }}
+          path: |
+            output/cards/**
+            output/stories/**
+            output/manifests/**
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Registra lo stato nel repository
+        if: always()
+        run: |
+          git config user.name "myLifeZen bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/state.json data/runs.log output/manifests 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica di stato da registrare."
+          else
+            git commit -m "chore(state): esito pubblicazione $(date +%Y-%m-%d) [skip ci]"
+            git pull --rebase --autostash origin main || true
+            git push
+          fi

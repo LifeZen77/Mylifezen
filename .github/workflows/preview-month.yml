@@ -1,0 +1,52 @@
+name: Anteprima mensile
+
+# Genera le card di un mese senza pubblicare nulla: utile per approvare lo stile
+# prima che i post vadano online. Le immagini finiscono negli artefatti del run.
+on:
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "Mese da generare (1-12)"
+        required: true
+        default: "1"
+        type: choice
+        options: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+      year:
+        description: "Anno"
+        required: false
+        default: "2026"
+        type: string
+      story:
+        description: "Genera anche le versioni storia"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  anteprima:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Genera le card del mese
+        run: |
+          FLAGS=""
+          if [ "${{ github.event.inputs.story }}" = "true" ]; then FLAGS="--story"; fi
+          python -m lifezen preview --month ${{ github.event.inputs.month }} \
+            --year ${{ github.event.inputs.year }} --sheet --columns 6 --thumb 300 $FLAGS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anteprima-${{ github.event.inputs.year }}-${{ github.event.inputs.month }}
+          path: |
+            output/cards/**
+            output/stories/**
+            output/sheets/**
+          retention-days: 60
